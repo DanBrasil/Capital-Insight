@@ -1,0 +1,5 @@
+export { TenantProvider } from './providers/TenantProvider'
+export { useTenant } from './hooks/useTenant'
+export { useFeature } from './hooks/useFeature'
+export { FeatureGate } from './components/FeatureGate'
+export type { TenantConfig, TenantTheme, FeatureFlag, TenantAppConfig } from './types'
