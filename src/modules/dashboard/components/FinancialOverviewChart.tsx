@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui'
+import { Card, ErrorState } from '@/components/ui'
 
 import { BarChart } from './BarChart'
 import { EmptyState } from './EmptyState'
@@ -36,9 +36,7 @@ export function FinancialOverviewChart({ period }: FinancialOverviewChartProps) 
       <Card.Body>
         {isLoading && <div className="h-40 rounded animate-pulse bg-muted" />}
 
-        {isError && (
-          <p className="py-4 text-center text-sm text-error">Erro ao carregar o gráfico.</p>
-        )}
+        {isError && <ErrorState title="Erro ao carregar o gráfico" size="sm" />}
 
         {data && !hasData && (
           <EmptyState

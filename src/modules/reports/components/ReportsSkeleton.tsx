@@ -1,21 +1,26 @@
 import { Card } from '@/components/ui/Card'
+import { Skeleton, SkeletonText } from '@/components/ui'
 
 export function ReportsSkeleton() {
   return (
-    <div className="flex flex-col gap-6 animate-pulse">
+    <div
+      role="status"
+      aria-label="Carregando relatórios"
+      className="flex flex-col gap-6 animate-pulse"
+    >
       {/* Header */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-1.5">
-          <div className="h-7 w-32 rounded-md bg-muted" />
-          <div className="h-4 w-52 rounded-md bg-muted" />
+          <SkeletonText size="2xl" width="w-32" />
+          <SkeletonText size="lg" width="w-52" />
         </div>
-        <div className="h-6 w-24 rounded-full bg-muted" />
+        <Skeleton className="h-6 w-24 rounded-full" />
       </div>
 
       {/* Filters */}
       <div className="flex gap-2">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="h-8 w-12 rounded-md bg-muted" />
+          <Skeleton key={i} className="h-8 w-12" />
         ))}
       </div>
 
@@ -24,9 +29,9 @@ export function ReportsSkeleton() {
         {[...Array(4)].map((_, i) => (
           <Card key={i}>
             <Card.Body className="flex flex-col gap-2 p-4">
-              <div className="h-3 w-20 rounded bg-muted" />
-              <div className="h-6 w-28 rounded bg-muted" />
-              <div className="h-3 w-16 rounded bg-muted" />
+              <SkeletonText size="sm" width="w-20" />
+              <SkeletonText size="xl" width="w-28" />
+              <SkeletonText size="sm" width="w-16" />
             </Card.Body>
           </Card>
         ))}
@@ -37,10 +42,10 @@ export function ReportsSkeleton() {
         {[...Array(2)].map((_, i) => (
           <Card key={i}>
             <Card.Header>
-              <div className="h-4 w-36 rounded bg-muted" />
+              <SkeletonText size="lg" width="w-36" />
             </Card.Header>
             <Card.Body className="p-4">
-              <div className="h-40 w-full rounded bg-muted" />
+              <Skeleton className="h-40 w-full" />
             </Card.Body>
           </Card>
         ))}
@@ -51,10 +56,10 @@ export function ReportsSkeleton() {
         {[...Array(2)].map((_, i) => (
           <Card key={i}>
             <Card.Header>
-              <div className="h-4 w-28 rounded bg-muted" />
+              <SkeletonText size="lg" width="w-28" />
             </Card.Header>
             <Card.Body className="p-4">
-              <div className="h-28 w-full rounded bg-muted" />
+              <Skeleton className="h-28 w-full" />
             </Card.Body>
           </Card>
         ))}

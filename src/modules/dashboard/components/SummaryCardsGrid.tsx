@@ -1,6 +1,7 @@
 import { SummaryCard } from './SummaryCard'
 import { SummaryCardSkeleton } from './SummaryCardSkeleton'
 import { useDashboardSummary } from '../hooks/useDashboardSummary'
+import { ErrorState } from '@/components/ui'
 import { formatCurrency, formatVariation } from '../utils/formatters'
 import type { DashboardPeriod } from '../types'
 
@@ -65,9 +66,11 @@ export function SummaryCardsGrid({ period, locale, currencyCode }: SummaryCardsG
 
   if (isError || !data) {
     return (
-      <div className="rounded-lg border border-error/30 bg-error/5 px-4 py-3">
-        <p className="text-sm text-error">Erro ao carregar métricas. Tente recarregar a página.</p>
-      </div>
+      <ErrorState
+        title="Erro ao carregar métricas"
+        description="Tente recarregar a página."
+        size="sm"
+      />
     )
   }
 

@@ -1,3 +1,5 @@
+import { Skeleton, SkeletonButton, SkeletonText } from '@/components/ui'
+
 /**
  * SettingsSkeleton — shown while the initial settings data is loading.
  *
@@ -10,30 +12,30 @@ export function SettingsSkeleton() {
       {/* Tab bar skeleton */}
       <div className="flex gap-4 border-b border-border pb-2">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-8 w-24 rounded bg-muted" />
+          <Skeleton key={i} className="h-8 w-24" />
         ))}
       </div>
 
       {/* Card header skeleton */}
       <div className="rounded-lg border border-border p-6 space-y-4">
         <div className="space-y-2">
-          <div className="h-5 w-32 rounded bg-muted" />
-          <div className="h-3.5 w-64 rounded bg-muted" />
+          <SkeletonText size="xl" width="w-32" />
+          <SkeletonText width="w-64" />
         </div>
 
         {/* Form fields skeleton */}
         <div className="space-y-4 pt-2">
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="space-y-1.5">
-              <div className="h-3.5 w-20 rounded bg-muted" />
-              <div className="h-10 w-full rounded-md bg-muted" />
+              <SkeletonText width="w-20" />
+              <Skeleton className="h-10 w-full" />
             </div>
           ))}
         </div>
 
         {/* Footer skeleton */}
         <div className="flex justify-end pt-2">
-          <div className="h-9 w-28 rounded-md bg-muted" />
+          <SkeletonButton width="w-28" size="sm" />
         </div>
       </div>
     </div>

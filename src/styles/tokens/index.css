@@ -31,4 +31,20 @@
 
   /* Focus ring — used by all interactive elements */
   --color-ring: #93c5fd;
+
+  /* ── Custom keyframes ──────────────────────────────────────────────────── */
+
+  --animate-refetch-slide: refetch-slide 1.4s ease-in-out infinite;
+
+  @keyframes refetch-slide {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(200%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
 }

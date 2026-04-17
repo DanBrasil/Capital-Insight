@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Button } from '@/components/ui'
+import { Button, FormErrorBanner } from '@/components/ui'
 import { Input, Select, TextArea } from '@/components/form'
 
 import type { CreateOperationPayload, Operation } from '../types'
@@ -284,11 +284,7 @@ export function OperationForm({
           )}
         />
 
-        {submitError && (
-          <p className="text-sm text-error" role="alert">
-            {submitError}
-          </p>
-        )}
+        {submitError && <FormErrorBanner message={submitError} />}
 
         <div className="flex justify-end gap-3 pt-1">
           <Button

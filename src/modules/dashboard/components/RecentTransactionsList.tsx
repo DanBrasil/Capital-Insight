@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import { Card } from '@/components/ui'
+import { Card, ErrorState } from '@/components/ui'
 import { ROUTES } from '@/router/routes'
 
 import { EmptyState } from './EmptyState'
@@ -54,9 +54,7 @@ export function RecentTransactionsList({
           </div>
         )}
 
-        {isError && (
-          <p className="py-4 text-center text-sm text-error">Erro ao carregar transações.</p>
-        )}
+        {isError && <ErrorState title="Erro ao carregar transações" size="sm" />}
 
         {data && data.length === 0 && (
           <EmptyState

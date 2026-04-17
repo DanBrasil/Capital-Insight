@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Button } from '@/components/ui/Button'
+import { FormErrorBanner } from '@/components/ui/FormErrorBanner'
 import { Select } from '@/components/ui/Select'
 import { Text } from '@/components/ui/Typography'
 import { FeatureGate } from '@/tenants/components/FeatureGate'
@@ -107,9 +108,7 @@ export function PlatformSettingsForm({ initialData }: PlatformSettingsFormProps)
       footer={
         <>
           {mutation.isError && (
-            <Text variant="small" className="text-error">
-              Não foi possível salvar. Tente novamente.
-            </Text>
+            <FormErrorBanner message="Não foi possível salvar. Tente novamente." />
           )}
           {successMessage && (
             <Text variant="small" className="text-success">

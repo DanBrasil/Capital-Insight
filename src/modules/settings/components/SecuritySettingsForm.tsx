@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Button } from '@/components/ui/Button'
+import { FormErrorBanner } from '@/components/ui/FormErrorBanner'
 import { Input } from '@/components/ui/Input'
 import { Text } from '@/components/ui/Typography'
 
@@ -59,11 +60,7 @@ export function SecuritySettingsForm({ securityInfo }: SecuritySettingsFormProps
       description="Altere sua senha para manter sua conta protegida."
       footer={
         <>
-          {errorMessage && (
-            <Text variant="small" className="text-error">
-              {errorMessage}
-            </Text>
-          )}
+          {errorMessage && <FormErrorBanner message={errorMessage} />}
           {successMessage && (
             <Text variant="small" className="text-success">
               {successMessage}

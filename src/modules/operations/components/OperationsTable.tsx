@@ -1,5 +1,6 @@
 import { useOperations } from '../hooks/useOperations'
 import type { Operation, OperationFilters } from '../types'
+import { EmptyState, ErrorState } from '@/components/ui'
 import { OperationsEmptyState } from './OperationsEmptyState'
 import { OperationsSkeleton } from './OperationsSkeleton'
 import { OperationsTableRow } from './OperationsTableRow'
@@ -39,32 +40,22 @@ export function OperationsTable({
 
   if (isError) {
     return (
-      <div className="rounded-lg border border-error/30 bg-error/5 px-6 py-8 text-center">
-        <p className="text-sm font-medium text-error">Erro ao carregar operações</p>
-        <button
-          type="button"
-          onClick={() => refetch()}
-          className="mt-2 text-sm text-primary hover:underline"
-        >
-          Tentar novamente
-        </button>
+      <div className="rounded-lg border border-error/30 bg-error/5">
+        <ErrorState title="Erro ao carregar operações" onRetry={() => void refetch()} size="sm" />
       </div>
     )
   }
 
   if (!data || data.length === 0) {
     return hasActiveFilters ? (
-      <div className="rounded-lg border border-border bg-card px-6 py-10 text-center">
-        <p className="text-sm text-muted-foreground">
-          Nenhuma operação encontrada para os filtros selecionados.
-        </p>
-        <button
-          type="button"
-          onClick={onClearFilters}
-          className="mt-2 text-sm text-primary hover:underline"
-        >
-          Limpar filtros
-        </button>
+      <div className="rounded-lg border border-border bg-card">
+        <EmptyState
+          variant="filter"
+          title="Nenhuma operação encontrada"
+          description="Tente ajustar os filtros ou limpe a busca."
+          size="sm"
+          action={{ label: 'Limpar filtros', onClick: onClearFilters }}
+        />
       </div>
     ) : (
       <OperationsEmptyState onNew={onAddNew} />

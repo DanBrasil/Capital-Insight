@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui'
 
 import { TransactionRow } from './TransactionRow'
+import { TransactionsSkeleton } from './TransactionsSkeleton'
 import { useTransactions } from '../hooks/useTransactions'
 import type { Transaction, TransactionFilters } from '../types'
 
@@ -61,31 +62,7 @@ export function TransactionsTable({
 
           <tbody>
             {/* Loading skeleton */}
-            {isLoading &&
-              Array.from({ length: SKELETON_ROWS }).map((_, i) => (
-                <tr key={i} className="border-b border-border animate-pulse">
-                  <td className="px-4 py-3 hidden sm:table-cell">
-                    <div className="h-4 w-20 rounded bg-muted" />
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="h-4 w-32 rounded bg-muted mb-1" />
-                    <div className="h-3 w-20 rounded bg-muted" />
-                  </td>
-                  <td className="px-4 py-3 hidden md:table-cell">
-                    <div className="h-4 w-20 rounded bg-muted" />
-                  </td>
-                  <td className="px-4 py-3 hidden sm:table-cell">
-                    <div className="h-5 w-16 rounded-full bg-muted" />
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <div className="h-4 w-24 rounded bg-muted ml-auto" />
-                  </td>
-                  <td className="px-4 py-3 hidden lg:table-cell">
-                    <div className="h-5 w-16 rounded-full bg-muted" />
-                  </td>
-                  <td className="px-4 py-3" />
-                </tr>
-              ))}
+            {isLoading && <TransactionsSkeleton rows={SKELETON_ROWS} />}
 
             {/* Error state */}
             {isError && (

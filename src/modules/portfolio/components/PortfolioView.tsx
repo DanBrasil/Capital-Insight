@@ -1,6 +1,7 @@
 import { useTenant } from '@/tenants'
 
 import type { AppError } from '@/services/api/errors'
+import { ErrorState } from '@/components/ui'
 
 import { usePortfolio } from '../hooks/usePortfolio'
 import { PortfolioDistribution } from './PortfolioDistribution'
@@ -37,18 +38,12 @@ export function PortfolioView() {
     return (
       <div className="space-y-4">
         <PortfolioHeader />
-        <div className="rounded-lg border border-error/30 bg-error/5 px-6 py-5">
-          <p className="text-sm font-medium text-error">Erro ao carregar carteira</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {appError?.message ?? 'Tente novamente em instantes.'}
-          </p>
-          <button
-            type="button"
-            onClick={() => refetch()}
-            className="mt-3 text-sm font-medium text-primary hover:underline"
-          >
-            Tentar novamente
-          </button>
+        <div className="rounded-lg border border-error/30 bg-error/5">
+          <ErrorState
+            title="Erro ao carregar carteira"
+            description={appError?.message ?? 'Tente novamente em instantes.'}
+            onRetry={() => void refetch()}
+          />
         </div>
       </div>
     )
