@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 import { useNavigation } from '@/hooks/useNavigation'
 import { usePageTitle } from '@/hooks/usePageTitle'
+import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { ToastContainer } from '@/notifications'
 import { useTenant } from '@/tenants'
 
@@ -22,6 +23,7 @@ import { Sidebar } from '../Sidebar/Sidebar'
  */
 export function AppShell() {
   const { tenant } = useTenant()
+  const { user, logout } = useAuth()
   const navItems = useNavigation()
   const pageTitle = usePageTitle()
 
@@ -69,9 +71,12 @@ export function AppShell() {
         <Header
           pageTitle={pageTitle}
           tenantName={tenant.name}
+          userName={user?.name ?? ''}
+          userEmail={user?.email ?? ''}
           onMobileMenuToggle={handleMobileMenuToggle}
           onSidebarCollapseToggle={handleSidebarCollapseToggle}
           isSidebarCollapsed={isSidebarCollapsed}
+          onLogout={logout}
         />
 
         <main id="main-content" tabIndex={-1} className="flex-1 overflow-y-auto p-4 lg:p-6">

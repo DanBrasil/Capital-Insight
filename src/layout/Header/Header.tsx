@@ -1,9 +1,14 @@
+import { UserMenu } from './UserMenu'
+
 interface HeaderProps {
   pageTitle: string
   tenantName: string
+  userName: string
+  userEmail: string
   onMobileMenuToggle: () => void
   onSidebarCollapseToggle: () => void
   isSidebarCollapsed: boolean
+  onLogout: () => void
 }
 
 /**
@@ -14,9 +19,12 @@ interface HeaderProps {
 export function Header({
   pageTitle,
   tenantName,
+  userName,
+  userEmail,
   onMobileMenuToggle,
   onSidebarCollapseToggle,
   isSidebarCollapsed,
+  onLogout,
 }: HeaderProps) {
   return (
     <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b border-border bg-background px-4 lg:px-6">
@@ -73,14 +81,9 @@ export function Header({
       {/* Tenant badge */}
       <span className="hidden text-xs text-muted-foreground sm:block">{tenantName}</span>
 
-      {/* Future: user avatar, notifications, settings */}
+      {/* User menu */}
       <div className="flex items-center gap-2">
-        <div
-          className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold"
-          aria-label="Usuário logado"
-        >
-          U
-        </div>
+        <UserMenu userName={userName} userEmail={userEmail} onLogout={onLogout} />
       </div>
     </header>
   )
