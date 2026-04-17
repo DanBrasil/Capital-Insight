@@ -10,15 +10,34 @@ interface ModalProps {
 
 export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
+  const previouslyFocusedElementRef = useRef<HTMLElement | null>(null)
+  const hasOpenedRef = useRef(false)
   const titleId = 'modal-title'
 
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
+
     if (isOpen) {
-      dialog.showModal()
-    } else {
+      hasOpenedRef.current = true
+      previouslyFocusedElementRef.current =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null
+
+      if (!dialog.open) {
+        dialog.showModal()
+      }
+      return
+    }
+
+    if (dialog.open) {
       dialog.close()
+    }
+
+    if (hasOpenedRef.current) {
+      requestAnimationFrame(() => {
+        previouslyFocusedElementRef.current?.focus()
+      })
+      hasOpenedRef.current = false
     }
   }, [isOpen])
 

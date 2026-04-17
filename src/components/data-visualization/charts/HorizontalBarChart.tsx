@@ -12,6 +12,8 @@ interface HorizontalBarChartProps {
   seriesName?: string
   config?: ChartConfig
   className?: string
+  /** Accessible label describing the chart content. Important for screen readers. */
+  'aria-label'?: string
 }
 
 /**
@@ -30,6 +32,7 @@ export function HorizontalBarChart({
   seriesName = 'Valor',
   config = {},
   className = '',
+  'aria-label': ariaLabel,
 }: HorizontalBarChartProps) {
   const theme = useChartTheme()
   const { height = Math.max(data.length * 44 + 16, 120), showTooltip = true, formatValue } = config
@@ -40,7 +43,12 @@ export function HorizontalBarChart({
   const barColors = data.map((_, idx) => theme.colors[idx % theme.colors.length])
 
   return (
-    <div className={['w-full', className].join(' ')} style={{ height }}>
+    <div 
+      className={['w-full', className].join(' ')} 
+      style={{ height }}
+      role="img"
+      aria-label={ariaLabel}
+    >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           layout="vertical"

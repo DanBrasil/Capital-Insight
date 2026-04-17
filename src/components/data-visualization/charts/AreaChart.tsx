@@ -20,6 +20,8 @@ interface AreaChartProps {
   xAxisKey?: string
   config?: ChartConfig
   className?: string
+  /** Accessible label describing the chart content. Important for screen readers. */
+  'aria-label'?: string
 }
 
 /**
@@ -36,6 +38,7 @@ export function AreaChart({
   xAxisKey = 'label',
   config = {},
   className = '',
+  'aria-label': ariaLabel,
 }: AreaChartProps) {
   const theme = useChartTheme()
   const {
@@ -51,7 +54,12 @@ export function AreaChart({
     s.color ?? theme.colors[idx % theme.colors.length]
 
   return (
-    <div className={['w-full', className].join(' ')} style={{ height }}>
+    <div 
+      className={['w-full', className].join(' ')} 
+      style={{ height }}
+      role="img"
+      aria-label={ariaLabel}
+    >
       <ResponsiveContainer width="100%" height="100%">
         <RechartsAreaChart data={data} margin={{ top: 8, right: 4, left: 0, bottom: 0 }}>
           {showGrid && (

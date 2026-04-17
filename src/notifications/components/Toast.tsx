@@ -5,10 +5,7 @@ import { NOTIFICATION_DURATION } from '../types'
 
 // ─── Visual config per type ───────────────────────────────────────────────────
 
-const TYPE_STYLES: Record<
-  NotificationType,
-  { container: string; icon: string; label: string }
-> = {
+const TYPE_STYLES: Record<NotificationType, { container: string; icon: string; label: string }> = {
   success: {
     container: 'bg-success text-success-foreground border-success',
     icon: '✓',

@@ -32,13 +32,7 @@ interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
  * Use for any rectangular placeholder: images, charts, cards, badges, etc.
  */
 export function Skeleton({ className = '', ...rest }: SkeletonProps) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`rounded bg-muted ${className}`}
-      {...rest}
-    />
-  )
+  return <div aria-hidden="true" className={`rounded bg-muted ${className}`} {...rest} />
 }
 
 // ─── Text line ────────────────────────────────────────────────────────────────
@@ -73,11 +67,7 @@ const TEXT_HEIGHT: Record<NonNullable<SkeletonTextProps['size']>, string> = {
  * Simulates a line of text.
  * Use `size` to match the real typography, `width` to match the approximate length.
  */
-export function SkeletonText({
-  width = 'w-full',
-  size = 'md',
-  className = '',
-}: SkeletonTextProps) {
+export function SkeletonText({ width = 'w-full', size = 'md', className = '' }: SkeletonTextProps) {
   return (
     <div
       aria-hidden="true"

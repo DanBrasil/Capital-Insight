@@ -87,6 +87,7 @@ export function TransactionRow({
           <button
             type="button"
             onClick={() => onEdit(transaction)}
+            aria-label={`Editar transação ${transaction.title}`}
             className="rounded px-2 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           >
             Editar
@@ -94,6 +95,7 @@ export function TransactionRow({
           <button
             type="button"
             onClick={() => onDelete(transaction.id)}
+            aria-label={`Excluir transação ${transaction.title}`}
             className="rounded px-2 py-1 text-xs font-medium text-error/70 hover:text-error hover:bg-error/10 transition-colors"
           >
             Excluir

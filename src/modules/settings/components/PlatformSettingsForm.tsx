@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -7,6 +7,8 @@ import { FormErrorBanner } from '@/components/ui/FormErrorBanner'
 import { Select } from '@/components/ui/Select'
 import { Text } from '@/components/ui/Typography'
 import { FeatureGate } from '@/tenants/components/FeatureGate'
+
+import { focusFirstInvalidField } from '@/utils/accessibility'
 
 import { useUpdatePlatform } from '../hooks/useUpdatePlatform'
 import {
@@ -68,6 +70,7 @@ interface PlatformSettingsFormProps {
 }
 
 export function PlatformSettingsForm({ initialData }: PlatformSettingsFormProps) {
+  const formRef = useRef<HTMLFormElement>(null)
   const mutation = useUpdatePlatform()
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
@@ -100,6 +103,8 @@ export function PlatformSettingsForm({ initialData }: PlatformSettingsFormProps)
     })
   }
 
+  const submitForm = handleSubmit(onSubmit, () => focusFirstInvalidField(formRef.current))
+
   return (
     <SettingsSectionCard
       panelId="settings-panel-platform"
@@ -116,11 +121,11 @@ export function PlatformSettingsForm({ initialData }: PlatformSettingsFormProps)
             </Text>
           )}
           <Button
+            form="platform-settings-form"
             type="submit"
             variant="primary"
             isLoading={mutation.isPending}
             disabled={!isDirty || mutation.isPending}
-            onClick={handleSubmit(onSubmit)}
           >
             Salvar configurações
           </Button>
@@ -128,8 +133,9 @@ export function PlatformSettingsForm({ initialData }: PlatformSettingsFormProps)
       }
     >
       <form
+        ref={formRef}
         id="platform-settings-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={submitForm}
         className="space-y-5"
         noValidate
       >
@@ -175,6 +181,7 @@ export function PlatformSettingsForm({ initialData }: PlatformSettingsFormProps)
               options={MARKET_VIEW_OPTIONS}
               placeholder="Selecione um modo"
               error={errors.defaultMarketView?.message}
+              aria-required="true"
             />
           )}
         />

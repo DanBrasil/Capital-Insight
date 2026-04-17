@@ -54,6 +54,7 @@ describe('ChartContainer', () => {
       </ChartContainer>,
     )
     expect(screen.getByTestId('chart-content')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Test' })).toBeInTheDocument()
   })
 
   // ── Loading state ──────────────────────────────────────────────────────────

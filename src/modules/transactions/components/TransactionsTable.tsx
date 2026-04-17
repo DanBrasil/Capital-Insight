@@ -34,27 +34,46 @@ export function TransactionsTable({
     <div className="rounded-lg border border-border overflow-hidden bg-card">
       <div className="overflow-x-auto">
         <table className="w-full text-left">
+          <caption className="sr-only">Lista de transações financeiras</caption>
           <thead className="bg-muted/50">
             <tr>
-              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden sm:table-cell w-28">
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden sm:table-cell w-28"
+              >
                 Data
               </th>
-              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+              >
                 Título
               </th>
-              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden md:table-cell">
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden md:table-cell"
+              >
                 Categoria
               </th>
-              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden sm:table-cell">
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden sm:table-cell"
+              >
                 Tipo
               </th>
-              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground text-right">
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground text-right"
+              >
                 Valor
               </th>
-              <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden lg:table-cell">
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden lg:table-cell"
+              >
                 Status
               </th>
-              <th className="px-4 py-3 w-28">
+              <th scope="col" className="px-4 py-3 w-28">
                 <span className="sr-only">Ações</span>
               </th>
             </tr>

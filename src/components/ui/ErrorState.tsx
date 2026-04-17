@@ -66,10 +66,9 @@ export function ErrorState({
       aria-label={title}
     >
       <div
-        className={[
-          'flex items-center justify-center rounded-full bg-error/10',
-          cfg.iconPad,
-        ].join(' ')}
+        className={['flex items-center justify-center rounded-full bg-error/10', cfg.iconPad].join(
+          ' ',
+        )}
       >
         <div className={cfg.iconBox}>
           <svg
@@ -91,9 +90,7 @@ export function ErrorState({
 
       <p className={cfg.title}>{title}</p>
 
-      {description && (
-        <p className={['mt-1 max-w-xs', cfg.description].join(' ')}>{description}</p>
-      )}
+      {description && <p className={['mt-1 max-w-xs', cfg.description].join(' ')}>{description}</p>}
 
       {onRetry && (
         <div className="mt-4">

@@ -161,9 +161,11 @@ export function EmptyState({
 
   return (
     <div
-      className={['flex flex-col items-center justify-center text-center', cfg.wrapper, className].join(
-        ' ',
-      )}
+      className={[
+        'flex flex-col items-center justify-center text-center',
+        cfg.wrapper,
+        className,
+      ].join(' ')}
       role="status"
       aria-label={title}
     >
@@ -178,9 +180,7 @@ export function EmptyState({
 
       <p className={cfg.title}>{title}</p>
 
-      {description && (
-        <p className={['mt-1 max-w-xs', cfg.description].join(' ')}>{description}</p>
-      )}
+      {description && <p className={['mt-1 max-w-xs', cfg.description].join(' ')}>{description}</p>}
 
       {(action || secondaryAction) && (
         <div className="mt-5 flex flex-wrap items-center justify-center gap-3">

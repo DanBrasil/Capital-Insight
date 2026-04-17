@@ -9,6 +9,9 @@ import { ChartLoadingState } from './ChartLoadingState'
 interface ChartContainerProps {
   title?: string
   subtitle?: string
+  ariaLabel?: string
+  /** Screen-reader-only summary describing the chart's key insight. */
+  summary?: string
   isLoading?: boolean
   isEmpty?: boolean
   emptyMessage?: string
@@ -34,6 +37,8 @@ interface ChartContainerProps {
 export function ChartContainer({
   title,
   subtitle,
+  ariaLabel,
+  summary,
   isLoading = false,
   isEmpty = false,
   emptyMessage,
@@ -41,6 +46,8 @@ export function ChartContainer({
   children,
   className = '',
 }: ChartContainerProps) {
+  const resolvedAriaLabel = ariaLabel ?? ([title, subtitle].filter(Boolean).join(' - ') || 'Gráfico')
+
   return (
     <Card className={className}>
       {(title ?? subtitle) && (
@@ -59,7 +66,10 @@ export function ChartContainer({
         ) : isEmpty ? (
           <ChartEmptyState message={emptyMessage} />
         ) : (
-          children
+          <div role="img" aria-label={resolvedAriaLabel}>
+            {summary && <p className="sr-only">{summary}</p>}
+            {children}
+          </div>
         )}
       </Card.Body>
     </Card>

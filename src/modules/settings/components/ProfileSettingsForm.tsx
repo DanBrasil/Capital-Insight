@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -7,6 +7,8 @@ import { FormErrorBanner } from '@/components/ui/FormErrorBanner'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Text } from '@/components/ui/Typography'
+
+import { focusFirstInvalidField } from '@/utils/accessibility'
 
 import { useUpdateProfile } from '../hooks/useUpdateProfile'
 import {
@@ -34,6 +36,7 @@ interface ProfileSettingsFormProps {
 }
 
 export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
+  const formRef = useRef<HTMLFormElement>(null)
   const mutation = useUpdateProfile()
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
@@ -68,6 +71,8 @@ export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
     })
   }
 
+  const submitForm = handleSubmit(onSubmit, () => focusFirstInvalidField(formRef.current))
+
   return (
     <SettingsSectionCard
       panelId="settings-panel-profile"
@@ -84,11 +89,11 @@ export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
             </Text>
           )}
           <Button
+            form="profile-settings-form"
             type="submit"
             variant="primary"
             isLoading={mutation.isPending}
             disabled={!isDirty || mutation.isPending}
-            onClick={handleSubmit(onSubmit)}
           >
             Salvar perfil
           </Button>
@@ -96,8 +101,9 @@ export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
       }
     >
       <form
+        ref={formRef}
         id="profile-settings-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={submitForm}
         className="space-y-4"
         noValidate
       >
@@ -111,6 +117,7 @@ export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
               label="Nome completo"
               placeholder="Seu nome"
               error={errors.name?.message}
+              aria-required="true"
             />
           )}
         />
@@ -143,6 +150,7 @@ export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
               options={LOCALE_OPTIONS}
               placeholder="Selecione um idioma"
               error={errors.locale?.message}
+              aria-required="true"
             />
           )}
         />
@@ -158,6 +166,7 @@ export function ProfileSettingsForm({ initialData }: ProfileSettingsFormProps) {
               options={CURRENCY_OPTIONS}
               placeholder="Selecione uma moeda"
               error={errors.currency?.message}
+              aria-required="true"
             />
           )}
         />

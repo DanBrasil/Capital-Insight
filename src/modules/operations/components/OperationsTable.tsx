@@ -66,33 +66,58 @@ export function OperationsTable({
     <div className="rounded-lg border border-border bg-card overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[560px] text-left">
+          <caption className="sr-only">Lista de operações de investimento</caption>
           <thead className="bg-muted/40 border-b border-border">
             <tr>
-              <th className="hidden sm:table-cell px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="hidden sm:table-cell px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground"
+              >
                 Data
               </th>
-              <th className="px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground"
+              >
                 Ativo
               </th>
-              <th className="px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground"
+              >
                 Tipo
               </th>
-              <th className="hidden md:table-cell px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="hidden md:table-cell px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground"
+              >
                 Classe
               </th>
-              <th className="hidden sm:table-cell px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="hidden sm:table-cell px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground"
+              >
                 Qtd.
               </th>
-              <th className="hidden lg:table-cell px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="hidden lg:table-cell px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground"
+              >
                 Preço Unit.
               </th>
-              <th className="hidden lg:table-cell px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="hidden lg:table-cell px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground"
+              >
                 Taxas
               </th>
-              <th className="px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <th
+                scope="col"
+                className="px-4 py-2.5 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground"
+              >
                 Total
               </th>
-              <th className="px-4 py-2.5 w-20">
+              <th scope="col" className="px-4 py-2.5 w-20">
                 <span className="sr-only">Ações</span>
               </th>
             </tr>

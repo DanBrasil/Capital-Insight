@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/Button'
 import { FormErrorBanner } from '@/components/ui/FormErrorBanner'
 import { Input } from '@/components/ui/Input'
 import { Text } from '@/components/ui/Typography'
+
+import { focusFirstInvalidField } from '@/utils/accessibility'
 
 import { useChangePassword } from '../hooks/useChangePassword'
 import {
@@ -22,6 +24,7 @@ interface SecuritySettingsFormProps {
 }
 
 export function SecuritySettingsForm({ securityInfo }: SecuritySettingsFormProps) {
+  const formRef = useRef<HTMLFormElement>(null)
   const mutation = useChangePassword()
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
@@ -46,6 +49,8 @@ export function SecuritySettingsForm({ securityInfo }: SecuritySettingsFormProps
     })
   }
 
+  const submitForm = handleSubmit(onSubmit, () => focusFirstInvalidField(formRef.current))
+
   const errorMessage =
     mutation.isError && mutation.error instanceof Error
       ? mutation.error.message
@@ -68,11 +73,11 @@ export function SecuritySettingsForm({ securityInfo }: SecuritySettingsFormProps
           )}
           {securityInfo.canChangePassword && (
             <Button
+              form="security-settings-form"
               type="submit"
               variant="primary"
               isLoading={mutation.isPending}
               disabled={mutation.isPending}
-              onClick={handleSubmit(onSubmit)}
             >
               Alterar senha
             </Button>
@@ -84,8 +89,9 @@ export function SecuritySettingsForm({ securityInfo }: SecuritySettingsFormProps
         <SettingsSectionUnavailable />
       ) : (
         <form
+          ref={formRef}
           id="security-settings-form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={submitForm}
           className="space-y-4"
           noValidate
         >
@@ -100,6 +106,7 @@ export function SecuritySettingsForm({ securityInfo }: SecuritySettingsFormProps
                 type="password"
                 autoComplete="current-password"
                 error={errors.currentPassword?.message}
+                aria-required="true"
               />
             )}
           />
@@ -116,6 +123,7 @@ export function SecuritySettingsForm({ securityInfo }: SecuritySettingsFormProps
                 autoComplete="new-password"
                 hint="Mínimo de 8 caracteres."
                 error={errors.newPassword?.message}
+                aria-required="true"
               />
             )}
           />
@@ -131,6 +139,7 @@ export function SecuritySettingsForm({ securityInfo }: SecuritySettingsFormProps
                 type="password"
                 autoComplete="new-password"
                 error={errors.confirmPassword?.message}
+                aria-required="true"
               />
             )}
           />

@@ -16,7 +16,10 @@ export function ToastContainer() {
 
   return (
     <div
+      role="region"
       aria-label="Notificações"
+      aria-live="polite"
+      aria-atomic="true"
       className="fixed bottom-4 right-4 z-[9999] flex flex-col-reverse gap-2 w-full max-w-sm"
     >
       {items.map(item => (

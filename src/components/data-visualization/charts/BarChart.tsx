@@ -19,6 +19,8 @@ interface BarChartProps {
   xAxisKey?: string
   config?: ChartConfig
   className?: string
+  /** Accessible label describing the chart content. Important for screen readers. */
+  'aria-label'?: string
 }
 
 /**
@@ -34,6 +36,7 @@ export function BarChart({
   xAxisKey = 'label',
   config = {},
   className = '',
+  'aria-label': ariaLabel,
 }: BarChartProps) {
   const theme = useChartTheme()
   const {
@@ -49,7 +52,12 @@ export function BarChart({
     s.color ?? theme.colors[idx % theme.colors.length]
 
   return (
-    <div className={['w-full', className].join(' ')} style={{ height }}>
+    <div 
+      className={['w-full', className].join(' ')} 
+      style={{ height }}
+      role="img"
+      aria-label={ariaLabel}
+    >
       <ResponsiveContainer width="100%" height="100%">
         <RechartsBarChart
           data={data}

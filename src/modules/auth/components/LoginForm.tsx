@@ -1,8 +1,10 @@
+import { useRef } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Button } from '@/components/ui'
 import { Input } from '@/components/form'
+import { focusFirstInvalidField } from '@/utils/accessibility'
 
 import type { LoginCredentials } from '../types'
 import {
@@ -25,14 +27,20 @@ interface LoginFormProps {
  * Field errors appear below each input as soon as the user leaves it.
  */
 export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
+  const formRef = useRef<HTMLFormElement>(null)
   const { control, handleSubmit } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: LOGIN_FORM_DEFAULTS,
     mode: 'onBlur',
   })
 
+  const submitForm = handleSubmit(
+    values => onSubmit(values),
+    () => focusFirstInvalidField(formRef.current),
+  )
+
   return (
-    <form onSubmit={handleSubmit(values => onSubmit(values))} noValidate className="space-y-5">
+    <form ref={formRef} onSubmit={submitForm} noValidate className="space-y-5">
       <Controller
         name="email"
         control={control}

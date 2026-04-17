@@ -49,9 +49,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
     const key = dedupeKey(type, options.message)
 
     // Deduplicate — ignore if identical toast already visible
-    const alreadyExists = items.some(
-      item => dedupeKey(item.type, item.message) === key,
-    )
+    const alreadyExists = items.some(item => dedupeKey(item.type, item.message) === key)
     if (alreadyExists) return null
 
     const id = generateId()

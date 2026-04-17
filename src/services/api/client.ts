@@ -51,15 +51,11 @@ apiClient.interceptors.response.use(
       window.dispatchEvent(new CustomEvent(AUTH_UNAUTHORIZED_EVENT))
     } else if (status === undefined) {
       // Network error / timeout — no HTTP response received
-      notificationService.error(
-        'Não foi possível conectar ao servidor. Verifique sua conexão.',
-      )
+      notificationService.error('Não foi possível conectar ao servidor. Verifique sua conexão.')
     } else if (status >= 500) {
       // Server errors — unexpected; surface a generic message globally.
       // Specific 4xx errors (400, 422) are handled by each mutation's onError.
-      notificationService.error(
-        'Ocorreu um erro no servidor. Tente novamente em instantes.',
-      )
+      notificationService.error('Ocorreu um erro no servidor. Tente novamente em instantes.')
     }
 
     // Normalise the error shape so every caller receives an AppError

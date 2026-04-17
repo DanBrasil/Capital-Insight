@@ -1,9 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Button, FormErrorBanner } from '@/components/ui'
 import { Input, Select, TextArea } from '@/components/form'
+
+import { focusFirstInvalidField } from '@/utils/accessibility'
 
 import type { CreateOperationPayload, Operation } from '../types'
 import {
@@ -89,6 +91,7 @@ export function OperationForm({
   onSubmit,
   onCancel,
 }: OperationFormProps) {
+  const formRef = useRef<HTMLFormElement>(null)
   const { control, handleSubmit, watch, reset } = useForm<OperationFormValues>({
     resolver: zodResolver(operationFormSchema),
     defaultValues: initialValues ? operationToForm(initialValues) : OPERATION_FORM_DEFAULTS,
@@ -111,8 +114,13 @@ export function OperationForm({
       ? (Number(quantity) * Number(unitPrice) + Number(fees || '0')).toFixed(2)
       : null
 
+  const submitForm = handleSubmit(
+    values => onSubmit(toPayload(values)),
+    () => focusFirstInvalidField(formRef.current),
+  )
+
   return (
-    <form onSubmit={handleSubmit(values => onSubmit(toPayload(values)))} noValidate>
+    <form ref={formRef} onSubmit={submitForm} noValidate>
       <div className="space-y-4">
         {/* Row 1: Symbol + Operation type */}
         <div className="grid grid-cols-2 gap-4">
@@ -125,6 +133,7 @@ export function OperationForm({
                 label="Código do ativo"
                 placeholder="ex: PETR4"
                 required
+                aria-required="true"
                 value={field.value}
                 onChange={e => field.onChange(e.target.value.toUpperCase())}
                 onBlur={field.onBlur}
@@ -140,6 +149,7 @@ export function OperationForm({
                 id="op-form-type"
                 label="Operação"
                 required
+                aria-required="true"
                 options={OPERATION_TYPE_OPTIONS}
                 value={field.value}
                 onChange={field.onChange}
@@ -160,6 +170,7 @@ export function OperationForm({
                 id="op-form-asset-type"
                 label="Tipo de ativo"
                 required
+                aria-required="true"
                 options={ASSET_TYPE_OPTIONS}
                 value={field.value}
                 onChange={field.onChange}
@@ -177,6 +188,7 @@ export function OperationForm({
                 label="Data da operação"
                 type="date"
                 required
+                aria-required="true"
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
@@ -199,6 +211,7 @@ export function OperationForm({
                 min="0"
                 step="1"
                 required
+                aria-required="true"
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
@@ -217,6 +230,7 @@ export function OperationForm({
                 min="0"
                 step="0.01"
                 required
+                aria-required="true"
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}

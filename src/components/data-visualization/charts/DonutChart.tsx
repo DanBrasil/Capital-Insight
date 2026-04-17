@@ -11,6 +11,8 @@ interface DonutChartProps {
   colors?: string[]
   config?: ChartConfig
   className?: string
+  /** Accessible label describing the chart content. Important for screen readers. */
+  'aria-label'?: string
 }
 
 /**
@@ -28,6 +30,7 @@ export function DonutChart({
   colors: colorOverrides,
   config = {},
   className = '',
+  'aria-label': ariaLabel,
 }: DonutChartProps) {
   const theme = useChartTheme()
   const { height = 240, showLegend = true, showTooltip = true, formatValue } = config
@@ -47,7 +50,12 @@ export function DonutChart({
   const pieData = data.map(d => ({ name: d.label, value: d.value }))
 
   return (
-    <div className={['w-full', className].join(' ')} style={{ height }}>
+    <div 
+      className={['w-full', className].join(' ')} 
+      style={{ height }}
+      role="img"
+      aria-label={ariaLabel}
+    >
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/Button'
 import { FormErrorBanner } from '@/components/ui/FormErrorBanner'
 import { Select } from '@/components/ui/Select'
 import { Text } from '@/components/ui/Typography'
+
+import { focusFirstInvalidField } from '@/utils/accessibility'
 
 import { useUpdatePreferences } from '../hooks/useUpdatePreferences'
 import {
@@ -39,6 +41,7 @@ interface PreferencesSettingsFormProps {
 }
 
 export function PreferencesSettingsForm({ initialData }: PreferencesSettingsFormProps) {
+  const formRef = useRef<HTMLFormElement>(null)
   const mutation = useUpdatePreferences()
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
@@ -71,6 +74,8 @@ export function PreferencesSettingsForm({ initialData }: PreferencesSettingsForm
     })
   }
 
+  const submitForm = handleSubmit(onSubmit, () => focusFirstInvalidField(formRef.current))
+
   return (
     <SettingsSectionCard
       panelId="settings-panel-preferences"
@@ -87,11 +92,11 @@ export function PreferencesSettingsForm({ initialData }: PreferencesSettingsForm
             </Text>
           )}
           <Button
+            form="preferences-settings-form"
             type="submit"
             variant="primary"
             isLoading={mutation.isPending}
             disabled={!isDirty || mutation.isPending}
-            onClick={handleSubmit(onSubmit)}
           >
             Salvar preferências
           </Button>
@@ -99,8 +104,9 @@ export function PreferencesSettingsForm({ initialData }: PreferencesSettingsForm
       }
     >
       <form
+        ref={formRef}
         id="preferences-settings-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={submitForm}
         className="space-y-4"
         noValidate
       >
@@ -115,6 +121,7 @@ export function PreferencesSettingsForm({ initialData }: PreferencesSettingsForm
               options={THEME_OPTIONS}
               placeholder="Selecione um tema"
               error={errors.theme?.message}
+              aria-required="true"
             />
           )}
         />
@@ -130,6 +137,7 @@ export function PreferencesSettingsForm({ initialData }: PreferencesSettingsForm
               options={DATE_FORMAT_OPTIONS}
               placeholder="Selecione um formato"
               error={errors.dateFormat?.message}
+              aria-required="true"
             />
           )}
         />
@@ -145,6 +153,7 @@ export function PreferencesSettingsForm({ initialData }: PreferencesSettingsForm
               options={CURRENCY_FORMAT_OPTIONS}
               placeholder="Selecione um formato"
               error={errors.currencyFormat?.message}
+              aria-required="true"
             />
           )}
         />
