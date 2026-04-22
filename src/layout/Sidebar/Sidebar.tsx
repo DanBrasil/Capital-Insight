@@ -1,9 +1,11 @@
-import type { NavItem } from '@/hooks/useNavigation'
+import { X } from 'lucide-react'
 
-import { SidebarItem } from './SidebarItem'
+import type { NavGroup } from '@/hooks/useNavigation'
+
+import { SidebarGroup } from './SidebarGroup'
 
 interface SidebarProps {
-  navItems: NavItem[]
+  navGroups: NavGroup[]
   tenantName: string
   logoUrl: string
   isCollapsed: boolean
@@ -17,7 +19,7 @@ interface SidebarProps {
  * State (collapsed, mobile open) is owned by AppShell and passed down.
  */
 export function Sidebar({
-  navItems,
+  navGroups,
   tenantName,
   logoUrl,
   isCollapsed,
@@ -47,30 +49,48 @@ export function Sidebar({
         ].join(' ')}
       >
         {/* Branding */}
-        <div className="flex h-16 shrink-0 items-center gap-3 border-b border-border px-4">
-          <img
-            src={logoUrl}
-            alt={`${tenantName} logo`}
-            className="h-8 w-8 shrink-0 object-contain"
-            onError={event => {
-              ;(event.target as HTMLImageElement).style.display = 'none'
-            }}
-          />
-          {!isCollapsed && (
-            <span className="truncate text-sm font-semibold text-foreground">{tenantName}</span>
-          )}
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <img
+              src={logoUrl}
+              alt={`${tenantName} logo`}
+              className="h-8 w-8 shrink-0 object-contain"
+              onError={event => {
+                ;(event.target as HTMLImageElement).style.display = 'none'
+              }}
+            />
+            {!isCollapsed && (
+              <span className="truncate text-sm font-semibold text-foreground">{tenantName}</span>
+            )}
+          </div>
+
+          {/* Mobile close button */}
+          <button
+            type="button"
+            className="rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground lg:hidden"
+            onClick={onMobileClose}
+            aria-label="Fechar menu"
+          >
+            <X className="h-5 w-5" aria-hidden="true" />
+          </button>
         </div>
 
-        {/* Navigation */}
+        {/* Navigation groups */}
         <nav className="flex-1 overflow-y-auto py-4 px-2">
-          <ul className="flex flex-col gap-1">
-            {navItems.map(item => (
-              <li key={item.path}>
-                <SidebarItem item={item} isCollapsed={isCollapsed} />
-              </li>
+          <div className="flex flex-col gap-4">
+            {navGroups.map(group => (
+              <SidebarGroup key={group.label || '__main'} group={group} isCollapsed={isCollapsed} />
             ))}
-          </ul>
+          </div>
         </nav>
+
+        {/* Bottom section — app version when expanded */}
+        {!isCollapsed && (
+          <div className="shrink-0 border-t border-border px-4 py-3">
+            <p className="text-xs text-muted-foreground truncate">{tenantName}</p>
+            <p className="text-[10px] text-muted-foreground/60">v0.1.0</p>
+          </div>
+        )}
       </aside>
     </>
   )

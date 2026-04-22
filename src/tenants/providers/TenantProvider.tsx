@@ -5,6 +5,8 @@ import { fetchActiveTenantConfig } from '../tenantService'
 import { applyTenantTheme } from '../themeService'
 import type { TenantConfig } from '../types'
 
+import { TenantBootstrap } from './TenantBootstrap'
+
 // ─── Context contract ────────────────────────────────────────────────────────
 
 export interface TenantContextValue {
@@ -47,6 +49,10 @@ interface TenantProviderProps {
 /**
  * Thin provider: orchestrates services, holds state, exposes context.
  * Has no knowledge of how tenants are identified or how themes are applied.
+ *
+ * Loading gate: children are NOT rendered until tenant is resolved.
+ * This prevents flash of default theme and ensures all downstream
+ * components can safely read tenant data on first render.
  */
 export function TenantProvider({ children }: TenantProviderProps) {
   const [state, dispatch] = useReducer(tenantReducer, initialState)
@@ -74,6 +80,11 @@ export function TenantProvider({ children }: TenantProviderProps) {
       isCancelled = true
     }
   }, [])
+
+  // Loading gate — show bootstrap screen while resolving tenant
+  if (state.isLoading) {
+    return <TenantBootstrap />
+  }
 
   return <TenantContext.Provider value={state}>{children}</TenantContext.Provider>
 }

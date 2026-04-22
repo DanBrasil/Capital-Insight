@@ -43,6 +43,9 @@ export const ENDPOINTS = {
     update: (id: string) => `/operations/${id}` as const,
     delete: (id: string) => `/operations/${id}` as const,
   },
+  tenant: {
+    config: (tenantId: string) => `/tenants/${tenantId}/config` as const,
+  },
 } as const
 
 // ─── React Query key factory ──────────────────────────────────────────────────
@@ -80,4 +83,7 @@ export const QUERY_KEYS = {
 
   // Settings
   settings: () => ['settings'] as const,
+
+  // Tenant
+  tenantConfig: (tenantId: string) => ['tenant', 'config', tenantId] as const,
 } as const

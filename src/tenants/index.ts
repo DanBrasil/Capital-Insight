@@ -1,5 +1,8 @@
 export { TenantProvider } from './providers/TenantProvider'
 export { useTenant } from './hooks/useTenant'
 export { useFeature } from './hooks/useFeature'
+export { useTenantAppConfig } from './hooks/useTenantAppConfig'
 export { FeatureGate } from './components/FeatureGate'
+export { clearTenantCache } from './tenantCache'
+export { resolveTenantId } from './tenantService'
 export type { TenantConfig, TenantTheme, FeatureFlag, TenantAppConfig } from './types'

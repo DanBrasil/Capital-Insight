@@ -1,4 +1,5 @@
 export interface TenantTheme {
+  /* ── Colors ──────────────────────────────────────────────────────────────── */
   colorPrimary: string
   colorPrimaryForeground: string
   colorSecondary: string
@@ -8,8 +9,16 @@ export interface TenantTheme {
   colorMuted: string
   colorMutedForeground: string
   colorBorder: string
+
+  /* ── Branding ────────────────────────────────────────────────────────────── */
   logoUrl: string
   fontFamily: string
+
+  /* ── Shape (optional — falls back to CSS defaults) ───────────────────────── */
+  radiusSm?: string
+  radiusMd?: string
+  radiusLg?: string
+  radiusXl?: string
 }
 
 /**

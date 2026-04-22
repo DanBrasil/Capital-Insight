@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { AUTH_UNAUTHORIZED_EVENT } from '@/services/api/client'
 import { ROUTES } from '@/router/routes'
+import { clearTenantCache } from '@/tenants'
 
 import { authService } from '../services/authService'
 import { sessionStorage } from '../services/sessionStorage'
@@ -89,6 +90,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = useCallback(async () => {
     await authService.logout()
     sessionStorage.clearSession()
+    clearTenantCache()
     dispatch({ type: 'AUTH_LOGOUT' })
     navigate(ROUTES.login, { replace: true })
   }, [navigate])

@@ -1,0 +1,12 @@
+@theme {
+  /* ──────────────────────────────────────────────────────────────────────────
+     Spacing — complements Tailwind's default scale with semantic aliases.
+     Used as reference for consistent component internal padding.
+     ────────────────────────────────────────────────────────────────────────── */
+
+  --spacing-page: 1.5rem;       /* p-6 — page-level padding (ContentWrapper) */
+  --spacing-page-mobile: 1rem;  /* p-4 — page padding on small screens */
+  --spacing-section: 2rem;      /* space-y-8 — between major page sections */
+  --spacing-card: 1.5rem;       /* p-6 — card internal padding */
+  --spacing-input: 0.75rem;     /* px-3 — input horizontal padding */
+}

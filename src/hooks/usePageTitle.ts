@@ -7,6 +7,9 @@ const PAGE_TITLES: Record<string, string> = {
   [ROUTES.transactions]: 'Transações',
   [ROUTES.reports]: 'Relatórios',
   [ROUTES.investments]: 'Investimentos',
+  [ROUTES.portfolio]: 'Carteira',
+  [ROUTES.operations]: 'Operações',
+  [ROUTES.aiInsights]: 'AI Insights',
   [ROUTES.settings]: 'Configurações',
 }
 

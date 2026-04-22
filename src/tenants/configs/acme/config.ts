@@ -20,6 +20,10 @@ export const acmeTenantConfig: TenantConfig = {
     colorBorder: '#d4d4d8',
     logoUrl: '/tenants/acme/logo.svg',
     fontFamily: 'Poppins, system-ui, sans-serif',
+    radiusSm: '0.125rem',
+    radiusMd: '0.25rem',
+    radiusLg: '0.375rem',
+    radiusXl: '0.5rem',
   },
   features: ['reports', 'investments', 'notifications', 'multi-account', 'export-csv', 'audit-log'],
   appConfig: {

@@ -1,4 +1,5 @@
 import { apiClient } from '@/services/api/client'
+import { ENDPOINTS } from '@/services/api/constants'
 
 import type { LoginCredentials, LoginResponse } from '../types'
 
@@ -41,13 +42,13 @@ export const authService = {
       return DEV_MOCK_RESPONSE
     }
 
-    const response = await apiClient.post<LoginResponse>('/auth/login', credentials)
+    const response = await apiClient.post<LoginResponse>(ENDPOINTS.auth.login, credentials)
     return response.data
   },
 
   async logout(): Promise<void> {
     if (isDevMode()) return
-    await apiClient.post('/auth/logout').catch(() => undefined)
+    await apiClient.post(ENDPOINTS.auth.logout).catch(() => undefined)
   },
 
   async fetchCurrentUser(): Promise<LoginResponse['user']> {
@@ -55,7 +56,7 @@ export const authService = {
       return DEV_MOCK_RESPONSE.user
     }
 
-    const response = await apiClient.get<LoginResponse['user']>('/auth/me')
+    const response = await apiClient.get<LoginResponse['user']>(ENDPOINTS.auth.me)
     return response.data
   },
 }

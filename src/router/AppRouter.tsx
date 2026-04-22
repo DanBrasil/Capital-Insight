@@ -1,62 +1,104 @@
-import { AIInsightsPage } from '@/pages/AIInsightsPage'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import { ErrorBoundary } from '@/components/error'
 import { AuthProvider } from '@/modules/auth'
 import { AppShell } from '@/layout/AppShell/AppShell'
-import { DashboardPage } from '@/pages/DashboardPage'
-import { InvestmentsPage } from '@/pages/InvestmentsPage'
-import { LoginPage } from '@/pages/LoginPage'
-import { NotFoundPage } from '@/pages/NotFoundPage'
-import { OperationsPage } from '@/pages/OperationsPage'
-import { PortfolioPage } from '@/pages/PortfolioPage'
-import { ReportsPage } from '@/pages/ReportsPage'
-import { SettingsPage } from '@/pages/SettingsPage'
-import { TransactionsPage } from '@/pages/TransactionsPage'
 
+import { FeatureRoute } from './FeatureRoute'
+import { PageSuspense } from './PageSuspense'
 import { ProtectedRoute } from './ProtectedRoute'
-import { ROUTES } from './routes'
+import {
+  ROUTES,
+  fallbackRoute,
+  privateRoutes,
+  publicRoutes,
+  type AppRouteDefinition,
+} from './routes'
+
+// ─── Route renderers ─────────────────────────────────────────────────────────
+
+function renderPublicRoute(route: AppRouteDefinition) {
+  const Component = route.component
+  return (
+    <Route
+      key={route.path}
+      path={route.path}
+      element={
+        <PageSuspense>
+          <Component />
+        </PageSuspense>
+      }
+    />
+  )
+}
+
+function renderPrivateRoute(route: AppRouteDefinition) {
+  const Component = route.component
+  const element = route.requiredFeature ? (
+    <FeatureRoute flag={route.requiredFeature}>
+      <Component />
+    </FeatureRoute>
+  ) : (
+    <Component />
+  )
+
+  return (
+    <Route key={route.path} path={route.path} element={<PageSuspense>{element}</PageSuspense>} />
+  )
+}
+
+// ─── Router ──────────────────────────────────────────────────────────────────
 
 /**
  * Application router.
  *
- * Provider hierarchy inside BrowserRouter:
- *   AuthProvider  — needs router context for useNavigate
- *   TenantProvider (in main.tsx, outside BrowserRouter) — no navigation needed
+ * Provider hierarchy:
+ *   TenantProvider (main.tsx)
+ *     QueryClientProvider (main.tsx)
+ *       BrowserRouter
+ *         ErrorBoundary
+ *           AuthProvider
+ *             Routes
  *
- * Tree structure:
- *   Public routes  — accessible without authentication
- *   Private routes — wrapped by ProtectedRoute + AppShell
+ * Route structure:
+ *   Public routes  → no layout, no auth
+ *   Private routes → ProtectedRoute guard + AppShell layout
+ *   Fallback       → 404 page
  *
- * To add a new module: add a <Route> inside the private section.
- * No other file needs to change.
+ * Adding a new module:
+ *   1. Create the page component in src/pages/
+ *   2. Add path to ROUTES in routes.ts
+ *   3. Add entry to the appropriate domain group (coreRoutes/financeRoutes/analyticsRoutes)
+ *   4. No changes to this file needed
  */
 export function AppRouter() {
+  const FallbackComponent = fallbackRoute.component
+
   return (
     <BrowserRouter>
       <ErrorBoundary>
         <AuthProvider>
           <Routes>
             {/* ── Public ────────────────────────────────────────────── */}
-            <Route path={ROUTES.login} element={<LoginPage />} />
+            {publicRoutes.map(renderPublicRoute)}
 
             {/* ── Private — requires auth ───────────────────────────── */}
             <Route element={<ProtectedRoute />}>
               <Route element={<AppShell />}>
                 <Route index element={<Navigate to={ROUTES.dashboard} replace />} />
-                <Route path={ROUTES.dashboard} element={<DashboardPage />} />
-                <Route path={ROUTES.transactions} element={<TransactionsPage />} />
-                <Route path={ROUTES.reports} element={<ReportsPage />} />
-                <Route path={ROUTES.investments} element={<InvestmentsPage />} />
-                <Route path={ROUTES.portfolio} element={<PortfolioPage />} />
-                <Route path={ROUTES.operations} element={<OperationsPage />} />
-                <Route path={ROUTES.aiInsights} element={<AIInsightsPage />} />
-                <Route path={ROUTES.settings} element={<SettingsPage />} />
+                {privateRoutes.map(renderPrivateRoute)}
               </Route>
             </Route>
 
             {/* ── Fallback ──────────────────────────────────────────── */}
-            <Route path="*" element={<NotFoundPage />} />
+            <Route
+              path={fallbackRoute.path}
+              element={
+                <PageSuspense>
+                  <FallbackComponent />
+                </PageSuspense>
+              }
+            />
           </Routes>
         </AuthProvider>
       </ErrorBoundary>

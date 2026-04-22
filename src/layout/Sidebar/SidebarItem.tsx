@@ -2,6 +2,8 @@ import { NavLink } from 'react-router-dom'
 
 import type { NavItem } from '@/hooks/useNavigation'
 
+import { NavIcon } from './NavIcon'
+
 interface SidebarItemProps {
   item: NavItem
   isCollapsed: boolean
@@ -27,13 +29,7 @@ export function SidebarItem({ item, isCollapsed }: SidebarItemProps) {
         ].join(' ')
       }
     >
-      {/* Icon slot — using text placeholder; replace with Lucide icons when added */}
-      <span
-        className="h-5 w-5 shrink-0 flex items-center justify-center text-base"
-        aria-hidden="true"
-      >
-        ▪
-      </span>
+      <NavIcon name={item.iconName} className="h-5 w-5 shrink-0" />
       {!isCollapsed && <span className="truncate">{item.label}</span>}
     </NavLink>
   )

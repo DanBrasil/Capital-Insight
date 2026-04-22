@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 
 import { useNavigation } from '@/hooks/useNavigation'
 import { usePageTitle } from '@/hooks/usePageTitle'
@@ -7,6 +7,7 @@ import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { ToastContainer } from '@/notifications'
 import { useTenant } from '@/tenants'
 
+import { ContentWrapper } from '../ContentWrapper/ContentWrapper'
 import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
 
@@ -15,20 +16,27 @@ import { Sidebar } from '../Sidebar/Sidebar'
  *
  * Responsibilities:
  * - Reads tenant data (branding) from context
- * - Derives nav items via useNavigation (feature-filtered)
+ * - Derives nav groups via useNavigation (feature-filtered, grouped)
  * - Owns sidebar collapse and mobile-open state (pure UI state)
- * - Renders Header + Sidebar + <Outlet> (page content slot)
+ * - Auto-closes mobile menu on route change
+ * - Renders Header + Sidebar + ContentWrapper(<Outlet>) (page content slot)
  *
  * Does NOT know: what page is rendered, business rules, user data.
  */
 export function AppShell() {
   const { tenant } = useTenant()
   const { user, logout } = useAuth()
-  const navItems = useNavigation()
+  const navGroups = useNavigation()
   const pageTitle = usePageTitle()
+  const { pathname } = useLocation()
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  // Auto-close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [pathname])
 
   function handleSidebarCollapseToggle() {
     setIsSidebarCollapsed(previous => !previous)
@@ -54,7 +62,7 @@ export function AppShell() {
       </a>
 
       <Sidebar
-        navItems={navItems}
+        navGroups={navGroups}
         tenantName={tenant.name}
         logoUrl={tenant.theme.logoUrl}
         isCollapsed={isSidebarCollapsed}
@@ -79,9 +87,9 @@ export function AppShell() {
           onLogout={logout}
         />
 
-        <main id="main-content" tabIndex={-1} className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <ContentWrapper>
           <Outlet />
-        </main>
+        </ContentWrapper>
       </div>
 
       {/* Global toast stack — rendered once, outside the scrollable content */}

@@ -1,50 +1,23 @@
-@theme {
-  /*
-    Brand colors — tenant-overridable at runtime.
-    TenantProvider sets these as inline styles on :root,
-    which takes priority over stylesheet defaults.
-  */
-  --color-primary: #2563eb;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #64748b;
-  --color-secondary-foreground: #ffffff;
+/*
+  Design Tokens — the single source of truth for the visual language.
 
-  /* Semantic state colors */
-  --color-success: #16a34a;
-  --color-success-foreground: #ffffff;
-  --color-warning: #d97706;
-  --color-warning-foreground: #ffffff;
-  --color-error: #dc2626;
-  --color-error-foreground: #ffffff;
-  --color-info: #0284c7;
-  --color-info-foreground: #ffffff;
+  Organized by category:
+    colors     — brand, semantic state, surface, overlay
+    typography — font family, sizes, weights, line heights
+    spacing    — semantic spacing aliases (page, section, card)
+    radius     — border radius scale
+    shadows    — elevation scale
+    z-index    — stacking layers
+    motion     — durations, easings, keyframes
 
-  /* Layout & surface */
-  --color-background: #ffffff;
-  --color-foreground: #0f172a;
-  --color-muted: #f8fafc;
-  --color-muted-foreground: #64748b;
-  --color-card: #ffffff;
-  --color-card-foreground: #0f172a;
-  --color-border: #e2e8f0;
-  --color-input: #e2e8f0;
-
-  /* Focus ring — used by all interactive elements */
-  --color-ring: #93c5fd;
-
-  /* ── Custom keyframes ──────────────────────────────────────────────────── */
-
-  --animate-refetch-slide: refetch-slide 1.4s ease-in-out infinite;
-
-  @keyframes refetch-slide {
-    0% {
-      transform: translateX(-100%);
-    }
-    50% {
-      transform: translateX(200%);
-    }
-    100% {
-      transform: translateX(200%);
-    }
-  }
-}
+  Tenant customization:
+    TenantProvider overrides these at runtime via inline styles on :root.
+    CSS custom properties cascade, so tenant values always win.
+*/
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+@import './radius.css';
+@import './shadows.css';
+@import './z-index.css';
+@import './motion.css';

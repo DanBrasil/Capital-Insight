@@ -1,4 +1,5 @@
 import { apiClient } from '@/services/api/client'
+import { ENDPOINTS } from '@/services/api/constants'
 
 import type {
   CreateTransactionPayload,
@@ -144,7 +145,9 @@ let mockIdCounter = MOCK_STORE.length + 1
 export const transactionService = {
   async list(filters: TransactionFilters): Promise<Transaction[]> {
     if (import.meta.env.DEV) return applyFilters(MOCK_STORE, filters)
-    const response = await apiClient.get<Transaction[]>('/transactions', { params: filters })
+    const response = await apiClient.get<Transaction[]>(ENDPOINTS.transactions.list, {
+      params: filters,
+    })
     return response.data
   },
 
@@ -160,7 +163,7 @@ export const transactionService = {
       MOCK_STORE = [newItem, ...MOCK_STORE]
       return newItem
     }
-    const response = await apiClient.post<Transaction>('/transactions', payload)
+    const response = await apiClient.post<Transaction>(ENDPOINTS.transactions.create, payload)
     return response.data
   },
 
@@ -174,7 +177,10 @@ export const transactionService = {
       if (!updated) throw new Error('Transaction not found')
       return updated
     }
-    const response = await apiClient.put<Transaction>(`/transactions/${payload.id}`, payload)
+    const response = await apiClient.put<Transaction>(
+      ENDPOINTS.transactions.update(payload.id),
+      payload,
+    )
     return response.data
   },
 
@@ -183,6 +189,6 @@ export const transactionService = {
       MOCK_STORE = MOCK_STORE.filter(t => t.id !== id)
       return
     }
-    await apiClient.delete(`/transactions/${id}`)
+    await apiClient.delete(ENDPOINTS.transactions.delete(id))
   },
 }

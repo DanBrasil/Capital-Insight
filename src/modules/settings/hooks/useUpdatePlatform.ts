@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { QUERY_KEYS } from '@/services/api/constants'
+import { invalidate } from '@/services/api/invalidationRules'
 
 import { settingsService } from '../services/settingsService'
 import type { PlatformSettings } from '../types'
@@ -11,7 +11,7 @@ export function useUpdatePlatform() {
   return useMutation({
     mutationFn: (payload: PlatformSettings) => settingsService.updatePlatform(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.settings() })
+      invalidate.settings(queryClient)
     },
   })
 }

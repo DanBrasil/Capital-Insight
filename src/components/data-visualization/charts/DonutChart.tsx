@@ -50,8 +50,8 @@ export function DonutChart({
   const pieData = data.map(d => ({ name: d.label, value: d.value }))
 
   return (
-    <div 
-      className={['w-full', className].join(' ')} 
+    <div
+      className={['w-full', className].join(' ')}
       style={{ height }}
       role="img"
       aria-label={ariaLabel}

@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import { invalidate } from '@/services/api/invalidationRules'
+
 import { transactionService } from '../services/transactionService'
-import { TRANSACTIONS_QUERY_KEY } from './useTransactions'
 import type { UpdateTransactionPayload } from '../types'
 
 export function useUpdateTransaction() {
@@ -10,7 +11,7 @@ export function useUpdateTransaction() {
   return useMutation({
     mutationFn: (payload: UpdateTransactionPayload) => transactionService.update(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [TRANSACTIONS_QUERY_KEY] })
+      invalidate.transactions(queryClient)
     },
   })
 }

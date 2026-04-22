@@ -43,8 +43,8 @@ export function HorizontalBarChart({
   const barColors = data.map((_, idx) => theme.colors[idx % theme.colors.length])
 
   return (
-    <div 
-      className={['w-full', className].join(' ')} 
+    <div
+      className={['w-full', className].join(' ')}
       style={{ height }}
       role="img"
       aria-label={ariaLabel}

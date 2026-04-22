@@ -1,0 +1,13 @@
+@theme {
+  /* ──────────────────────────────────────────────────────────────────────────
+     Border radius — tenant-overridable.
+     Components use semantic aliases (--radius-*) instead of raw pixel values.
+     ────────────────────────────────────────────────────────────────────────── */
+
+  --radius-sm: 0.25rem;   /* 4px  — chips, badges */
+  --radius-md: 0.375rem;  /* 6px  — inputs, buttons */
+  --radius-lg: 0.5rem;    /* 8px  — cards, modals */
+  --radius-xl: 0.75rem;   /* 12px — panels, dropdowns */
+  --radius-2xl: 1rem;     /* 16px — large containers */
+  --radius-full: 9999px;  /* pill / circle */
+}

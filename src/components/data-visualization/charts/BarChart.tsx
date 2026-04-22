@@ -52,8 +52,8 @@ export function BarChart({
     s.color ?? theme.colors[idx % theme.colors.length]
 
   return (
-    <div 
-      className={['w-full', className].join(' ')} 
+    <div
+      className={['w-full', className].join(' ')}
       style={{ height }}
       role="img"
       aria-label={ariaLabel}

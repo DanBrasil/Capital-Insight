@@ -1,4 +1,5 @@
 import { apiClient } from '@/services/api/client'
+import { ENDPOINTS } from '@/services/api/constants'
 
 import type { ChartDataPoint, DashboardPeriod, DashboardSummary, RecentTransaction } from '../types'
 
@@ -131,7 +132,7 @@ const MOCK_CHART: Record<DashboardPeriod, ChartDataPoint[]> = {
 export const dashboardService = {
   async getSummary(period: DashboardPeriod): Promise<DashboardSummary> {
     if (import.meta.env.DEV) return MOCK_SUMMARY[period]
-    const response = await apiClient.get<DashboardSummary>('/dashboard/summary', {
+    const response = await apiClient.get<DashboardSummary>(ENDPOINTS.dashboard.summary, {
       params: { period },
     })
     return response.data
@@ -139,15 +140,18 @@ export const dashboardService = {
 
   async getRecentTransactions(period: DashboardPeriod): Promise<RecentTransaction[]> {
     if (import.meta.env.DEV) return MOCK_TRANSACTIONS
-    const response = await apiClient.get<RecentTransaction[]>('/dashboard/transactions/recent', {
-      params: { period },
-    })
+    const response = await apiClient.get<RecentTransaction[]>(
+      ENDPOINTS.dashboard.recentTransactions,
+      {
+        params: { period },
+      },
+    )
     return response.data
   },
 
   async getChartData(period: DashboardPeriod): Promise<ChartDataPoint[]> {
     if (import.meta.env.DEV) return MOCK_CHART[period]
-    const response = await apiClient.get<ChartDataPoint[]>('/dashboard/chart', {
+    const response = await apiClient.get<ChartDataPoint[]>(ENDPOINTS.dashboard.chart, {
       params: { period },
     })
     return response.data

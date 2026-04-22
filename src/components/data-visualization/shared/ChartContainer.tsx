@@ -46,7 +46,8 @@ export function ChartContainer({
   children,
   className = '',
 }: ChartContainerProps) {
-  const resolvedAriaLabel = ariaLabel ?? ([title, subtitle].filter(Boolean).join(' - ') || 'Gráfico')
+  const resolvedAriaLabel =
+    ariaLabel ?? ([title, subtitle].filter(Boolean).join(' - ') || 'Gráfico')
 
   return (
     <Card className={className}>

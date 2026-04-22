@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { QUERY_KEYS } from '@/services/api/constants'
+import { invalidate } from '@/services/api/invalidationRules'
 
 import { settingsService } from '../services/settingsService'
 import type { UserPreferenceSettings } from '../types'
@@ -11,7 +11,7 @@ export function useUpdatePreferences() {
   return useMutation({
     mutationFn: (payload: UserPreferenceSettings) => settingsService.updatePreferences(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.settings() })
+      invalidate.settings(queryClient)
     },
   })
 }
